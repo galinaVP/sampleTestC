@@ -17,24 +17,24 @@ public class Calculator {
         return a * b;
     }
 
-    public double division(int a, int b) {
-
-        return (double) a / b;
-    }
     public int subtraction(int a, int b) {
 
         return a - b;
     }
 
-    public int square(int a, int b) {
+    public double division(int a, int b) {
 
-        return a*a;
+        return (double) a / b;
     }
 
+    public double square(int a) {
 
-    //TODO
-    //add methods for multiply, division, subtraction, square root, x^2
+        return Math.sqrt(a);
+    }
+    public double pow (int a, int b) {
 
+        return Math.pow(a,b);
+    }
 
 }
 

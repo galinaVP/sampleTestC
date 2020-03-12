@@ -24,7 +24,7 @@ public class AddTwoValuesTests {
 
     @Test
     public void testAddTwoPositiveValues() {
-        int a = 10;
+        int a =  10;
         int b = 5;
         int exp = 15;
         assertEquals(format("%s + %s must be %s", a, b, exp),

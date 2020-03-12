@@ -39,12 +39,23 @@ public class AddTwoValuesTests {
 
     @Test
     public void testAddOneNegativeAnotherPositive() {
-        int a = -10;
-        int b = 10;
+        int a = 10;
+        int b = -10;
         int exp = 0;
         assertEquals(format("%s + %s must be %s", a, b, exp),
                 exp, calc.add(a, b));
     }
+
+    // how can we catch issue with long value for two int?
+    @Test
+    public void testAddResultIsLong() {
+        int a = 2147483645;
+        int b = 2147483645;
+        long exp = (long) a + b;
+        assertEquals(format("%s + %s must be %s", a, b, exp),
+                exp, calc.add(a, b));
+    }
+
     @Test
     public void testDivision() {
         int a = 1;
@@ -53,28 +64,80 @@ public class AddTwoValuesTests {
         assertEquals(format("%s / %s must be %s", a, b, exp),
                 exp, calc.division(a, b));
     }
-    @Test
-    public void testDivisionOnZero() {
-        int a = 1;
-        int b = 0;
-        try{
-            assertEquals(format("%s / %s isn't possible, a, b),
-                     calc.division(a, b));
-        }
-        catch {
-            
-        }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void testDivisionByZero() {
+        int a = 2;
+        int b = 0;
+        calc.division(a, b);
     }
 
+    @Test
+    public void testDivisionFromZero() {
+        int a = 0;
+        int b = 2;
+        double exp = 0;
+        assertEquals(format("%s / %s must be %s", a, b, exp),
+                exp, calc.division(a, b));
+    }
 
+    @Test
+    public void testSquareRootResultInt() {
+        int a = 100;
+        double exp = 10;
+        assertEquals(exp, calc.squareRoot(a));
+    }
 
+    @Test
+    public void testSquareRootResultDouble(){
+        int a = 700;
+        double exp = 26.46;
+        assertEquals(exp, calc.squareRoot(a));
+    }
+    @Test (expected = IllegalArgumentException.class)
+    public void testSquareRootFromNegative(){
+        int a = -100;
+        calc.squareRoot(a);
+    }
+    @Test
+    public void testPowPositiveToPositive(){
+        int a = 2;
+        int b = 3;
+        double exp = 8;
+        assertEquals(format("%s pow to %s must be %s",a,b,exp), exp, calc.pow(a,b));
+        System.out.println( a +" pow to " + b + " equal " + exp);
+    }
+    @Test
+    public void testPowPositiveToNegative(){
+        int a = 2;
+        int b = -3;
+        double exp = 0.125;
+        assertEquals(format("%s pow to %s must be %s",a,b,exp), exp, calc.pow(a,b));
+        System.out.println( a +" pow to " + b + " equal " + exp);
+    }
 
-    //TODO
-    //add new tests for add() method
-
-    //TODO
-    //add tests for new methods
+    @Test
+    public void testPowNegativeToPositive(){
+        int a = -2;
+        int b = 3;
+        double exp = -8;
+        assertEquals(format("%s pow to %s must be %s",a,b,exp),exp, calc.pow(a,b));
+        System.out.println( a +" pow to " + b + " equal " + exp);
+    }
+    @Test
+    public void testPowPositiveToZero(){
+        int a = 2;
+        int b = 0;
+        double exp = 1;
+        assertEquals(format("%s pow to %s must be %s",a,b,exp),exp, calc.pow(a,b));
+        System.out.println( a +" pow to " + b + " equal " + exp);
+    }
+    @Test (expected = IllegalArgumentException.class)
+    public void testPowZeroToPositive(){
+        int a = 0;
+        int b = 2;
+        calc.pow(a,b);
+    }
 
     @After
     public void consolePrintAfter() {

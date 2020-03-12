@@ -1,9 +1,12 @@
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static java.lang.String.*;
-import static junit.framework.TestCase.assertEquals;
+import static java.sql.Types.NULL;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.TestCase.*;
 
 /**
  * Created by kate on 1/12/16.
@@ -65,12 +68,14 @@ public class AddTwoValuesTests {
                 exp, calc.division(a, b));
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testDivisionByZero() {
         int a = 2;
         int b = 0;
-        calc.division(a, b);
+        //assertEquals(Double.POSITIVE_INFINITY,calc.division(a,b));
+        assertTrue(Double.isInfinite(calc.division(a, b)));
     }
+
 
     @Test
     public void testDivisionFromZero() {
@@ -87,56 +92,71 @@ public class AddTwoValuesTests {
         double exp = 10;
         assertEquals(exp, calc.squareRoot(a));
     }
-
+/*
     @Test
-    public void testSquareRootResultDouble(){
+    public void testSquareRootResultDouble() {
         int a = 700;
         double exp = 26.46;
         assertEquals(exp, calc.squareRoot(a));
     }
-    @Test (expected = IllegalArgumentException.class)
-    public void testSquareRootFromNegative(){
-        int a = -100;
-        calc.squareRoot(a);
-    }
+
+ */
+
     @Test
-    public void testPowPositiveToPositive(){
+    public void testSquareRootFromNegative() {
+        int a = -100;
+        assertTrue(Double.isNaN(calc.squareRoot(a)));
+    }
+
+
+    @Test
+    public void testPowPositiveToPositive() {
         int a = 2;
         int b = 3;
         double exp = 8;
-        assertEquals(format("%s pow to %s must be %s",a,b,exp), exp, calc.pow(a,b));
-        System.out.println( a +" pow to " + b + " equal " + exp);
-    }
-    @Test
-    public void testPowPositiveToNegative(){
-        int a = 2;
-        int b = -3;
-        double exp = 0.125;
-        assertEquals(format("%s pow to %s must be %s",a,b,exp), exp, calc.pow(a,b));
-        System.out.println( a +" pow to " + b + " equal " + exp);
+        assertEquals(format("%s pow to %s must be %s", a, b, exp), exp, calc.pow(a, b));
+        System.out.println(a + " pow to " + b + " equal " + exp);
     }
 
     @Test
-    public void testPowNegativeToPositive(){
+    public void testPowPositiveToNegative() {
+        int a = 2;
+        int b = -3;
+        double exp = 0.125;
+        assertEquals(format("%s pow to %s must be %s", a, b, exp), exp, calc.pow(a, b));
+        System.out.println(a + " pow to " + b + " equal " + exp);
+    }
+
+    @Test
+    public void testPowNegativeToPositive() {
         int a = -2;
         int b = 3;
         double exp = -8;
-        assertEquals(format("%s pow to %s must be %s",a,b,exp),exp, calc.pow(a,b));
-        System.out.println( a +" pow to " + b + " equal " + exp);
+        assertEquals(format("%s pow to %s must be %s", a, b, exp), exp, calc.pow(a, b));
+        System.out.println(a + " pow to " + b + " equal " + exp);
     }
+
     @Test
-    public void testPowPositiveToZero(){
-        int a = 2;
+    public void testPowPositiveToZero() {
+        int a = 100;
         int b = 0;
-        double exp = 1;
+
+        // using expected value and assertEquals
+        /* double exp = 1;
         assertEquals(format("%s pow to %s must be %s",a,b,exp),exp, calc.pow(a,b));
         System.out.println( a +" pow to " + b + " equal " + exp);
+         */
+
+        // without using expected value, as pow to zero always is 1
+        assertTrue(calc.pow(a, b) == 1);
     }
-    @Test (expected = IllegalArgumentException.class)
-    public void testPowZeroToPositive(){
+
+    @Test
+    public void testPowZeroToPositive() {
         int a = 0;
         int b = 2;
-        calc.pow(a,b);
+        double exp = 0;
+        assertEquals(format("%s pow in %s must be %s", a, b, exp), exp, calc.pow(a, b));
     }
 
     @After
